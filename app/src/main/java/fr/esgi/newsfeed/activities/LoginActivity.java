@@ -1,4 +1,4 @@
-package fr.esgi.newsfeed.activity;
+package fr.esgi.newsfeed.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
