@@ -8,8 +8,8 @@ import android.support.v7.appcompat.BuildConfig;
 
 public class Constants {
 
-    private static final String BASE_URL_DEV = "";
-    private static final String BASE_URL_PROD = "";
+    private static final String BASE_URL_DEV = "https://esgi-2017.herokuapp.com/";
+    private static final String BASE_URL_PROD = "https://esgi-2017.herokuapp.com/";
 
     public static String getBaseURL() {
         if (BuildConfig.DEBUG) {
