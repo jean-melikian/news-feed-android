@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.helpers.Constants;
+import fr.esgi.newsfeed.models.User;
 
 public class AccountActivity extends BaseActivity {
 
@@ -27,6 +28,18 @@ public class AccountActivity extends BaseActivity {
         mTv_email = (TextView) findViewById(R.id.tv_email_account);
         mTv_firstname = (TextView) findViewById(R.id.tv_firstname_account);
         mTv_firstname = (TextView) findViewById(R.id.tv_lastname_account);
+
+        GetUserInformations();
+    }
+
+    /**
+     * Function which returns the current informations for the user connected
+     *
+     * @return
+     */
+    private User GetUserInformations() {
+        // TODO : Launch the webService to get a user by the given token
+        return null;
     }
 
     @Override
