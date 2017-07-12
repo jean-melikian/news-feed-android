@@ -17,6 +17,13 @@ import retrofit2.Response;
 
 public class UserService implements IUserService {
 
+    /**
+     * Empty Constructor
+     */
+    public UserService() {
+
+    }
+
     private IRFUserService mRfUserService;
 
 
@@ -24,7 +31,7 @@ public class UserService implements IUserService {
         if (mRfUserService == null) {
             mRfUserService = MyApplication.getDefault().create(IRFUserService.class);
         }
-        return  mRfUserService;
+        return mRfUserService;
     }
 
     @Override
@@ -36,18 +43,19 @@ public class UserService implements IUserService {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody>
                     response) {
                 ServiceResult<String> result = new ServiceResult<>();
-                if(response.code() == 201)
+                if (response.code() == 201)
                     result.setData(response.headers().get("Resourceuri"));
                 else
                     result.setError(new ServiceException(response.code()));
-                if(resultListener != null)
+                if (resultListener != null)
                     resultListener.onResult(result);
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 ServiceResult<String> result = new ServiceResult<>();
                 result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
-                if(resultListener != null)
+                if (resultListener != null)
                     resultListener.onResult(result);
             }
         });

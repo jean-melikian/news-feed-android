@@ -13,6 +13,7 @@ import retrofit2.http.Path;
  */
 
 public interface IRFUserService {
+
     @POST("users/")
     Call<ResponseBody> create(@Body User user);
 

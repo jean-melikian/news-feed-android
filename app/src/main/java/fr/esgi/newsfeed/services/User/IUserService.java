@@ -8,8 +8,8 @@ import fr.esgi.newsfeed.models.User;
  */
 
 public interface IUserService {
-    void create(User user, IServiceResultListener<String>
-            resultListener);
-    void read(String userID, IServiceResultListener<User>
-            resultListener);
+
+    void create(User user, IServiceResultListener<String> resultListener);
+
+    void read(String userID, IServiceResultListener<User> resultListener);
 }
