@@ -85,9 +85,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         mIco_account = (ImageView) actionBarView.findViewById(R.id.actionbar_ic_account);
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            mIco_account.setImageDrawable(getResources().getDrawable(R.drawable.laposte_ico_user_black_inact, getTheme()));
+            mIco_account.setImageDrawable(getResources().getDrawable(R.drawable.ico_user_black, getTheme()));
         } else {
-            mIco_account.setImageDrawable(getResources().getDrawable(R.drawable.laposte_ico_user_black_inact));
+            mIco_account.setImageDrawable(getResources().getDrawable(R.drawable.ico_user_black));
         }
         mIco_account.setOnClickListener(new View.OnClickListener() {
             @Override
