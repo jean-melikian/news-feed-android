@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.esgi.newsfeed">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
     <application
         android:name=".activities.MyApplication"
         android:allowBackup="true"
@@ -19,6 +21,7 @@
         </activity>
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.AccountActivity"></activity>
+        <activity android:name=".activities.SubscribeActivity"></activity>
     </application>
 
 </manifest>

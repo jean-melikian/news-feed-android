@@ -1,16 +1,20 @@
 package fr.esgi.newsfeed.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import fr.esgi.newsfeed.R;
+import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.User;
+import fr.esgi.newsfeed.services.User.AuthService;
 import fr.esgi.newsfeed.services.User.IRFUserService;
 import fr.esgi.newsfeed.services.User.IUserService;
 import fr.esgi.newsfeed.services.User.UserService;
@@ -29,6 +33,10 @@ public class SubscribeActivity extends AppCompatActivity {
     private EditText mPassword;
     private EditText mFirstname;
     private EditText mLastname;
+
+    private AuthService mAuthService;
+
+    private Context mContext;
 
     private Button mButtonSubscribe;
     private View.OnClickListener mButtonSubscribeListener = new View.OnClickListener() {
@@ -57,11 +65,20 @@ public class SubscribeActivity extends AppCompatActivity {
 
         mButtonSubscribe.setOnClickListener(mButtonSubscribeListener);
 
+        mContext = this;
     }
 
     private void LaunchSubrscriptionService(User user) {
+        mAuthService = new AuthService();
 
-
+        mAuthService.create(user, new IServiceResultListener<String>() {
+            @Override
+            public void onResult(ServiceResult<String> result) {
+                if (result.getData() != null) {
+                    Toast.makeText(mContext, "Votre compte a bien été crée", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public boolean checkEditText(EditText editText) {
