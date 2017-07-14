@@ -3,5 +3,6 @@
     <string name="app_name">News Feed</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="sign_in">Se Connecter</string>
+    <string name="sign_in">Connexion</string>
+    <string name="sign_up">Inscription</string>
 </resources>

@@ -2,8 +2,8 @@
     <string name="app_name">News Feed</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="sign_in">Sign in</string>
-    <string name="connection">Connection</string>
+    <string name="sign_in">Login</string>
+    <string name="sign_up">Create an new account</string>
 
     <!-- Api Strings -->
     <string name="host_api">https://esgi-2017.herokuapp.com/</string>

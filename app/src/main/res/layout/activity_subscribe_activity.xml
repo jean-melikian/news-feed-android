@@ -9,52 +9,67 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/nosize"
-        android:layout_weight="0.35"
+        android:layout_weight="0.4"
         android:gravity="center"
         android:text="INSCRIPTION"
         android:textSize="30sp" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/nosize"
-        android:layout_weight="0.65">
+        android:layout_height="0dp"
+        android:layout_weight="0.6">
 
-        <EditText
-            android:id="@+id/et_firstname"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/btnSize_regular"
-            android:layout_above="@+id/et_lastname"
-            android:hint="@string/firstname" />
+            android:layout_height="@dimen/nosize"
+            android:layout_weight="0.60"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@id/et_lastname"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btnSize_regular"
-            android:layout_above="@+id/et_subscribe_email"
-            android:hint="@string/lastname" />
+            <EditText
+                android:id="@+id/et_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btnSize_regular"
+                android:hint="@string/firstname"
+                android:maxLines="1"
+                android:inputType="textPersonName"
+                android:nextFocusDown="@+id/et_lastname"/>
 
-        <EditText
-            android:id="@id/et_subscribe_email"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btnSize_regular"
-            android:layout_above="@+id/et_subscribe_password"
-            android:hint="@string/email" />
+            <EditText
+                android:id="@+id/et_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btnSize_regular"
+                android:hint="@string/lastname"
+                android:maxLines="1"
+                android:inputType="textPersonName"
+                android:nextFocusDown="@+id/et_subscribe_email"/>
 
-        <EditText
-            android:id="@id/et_subscribe_password"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btnSize_regular"
-            android:layout_above="@+id/btn_subscribe"
-            android:layout_marginBottom="20dp"
-            android:hint="@string/password" />
+            <EditText
+                android:id="@+id/et_subscribe_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btnSize_regular"
+                android:hint="@string/email"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:nextFocusDown="@+id/et_subscribe_password"/>
 
-        <Button
-            android:id="@id/btn_subscribe"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btnSize_regular"
-            android:layout_alignParentBottom="true"
-            android:text="@string/sign_in" />
+            <EditText
+                android:id="@+id/et_subscribe_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btnSize_regular"
+                android:layout_marginBottom="20dp"
+                android:hint="@string/password"
+                android:maxLines="1"
+                android:inputType="textWebPassword"
+                android:nextFocusDown="@+id/btn_subscribe"/>
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/btn_subscribe"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btnSize_regular"
+                android:text="@string/sign_up" />
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>
