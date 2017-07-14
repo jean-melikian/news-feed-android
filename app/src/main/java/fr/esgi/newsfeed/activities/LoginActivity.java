@@ -5,11 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import fr.esgi.newsfeed.R;
+import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
+import fr.esgi.newsfeed.models.LoginInformations;
+import fr.esgi.newsfeed.services.User.AuthService;
+import fr.esgi.newsfeed.services.User.UserService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,17 +28,38 @@ public class LoginActivity extends AppCompatActivity {
     private Button mConnexion;
     private Button mSubscribe;
 
+    private Context mContext;
+
+    private AuthService mAuthService;
+    private LoginInformations mLoginInformations;
+
     private SharedPreferences mSharedPreferences;
 
     private View.OnClickListener mConnexionOnClikListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (!(mEmail.getText().toString().isEmpty() || mEmail == null) && !(mPassword.getText().toString().isEmpty() || mPassword == null)) {
-                // Launch Service to make the connection
-
+                mLoginInformations = new LoginInformations(mEmail.getText().toString(), mPassword.getText().toString());
+                LaunchLoginService(mLoginInformations);
             }
         }
     };
+
+    private void LaunchLoginService(LoginInformations infos) {
+
+        mAuthService = new AuthService();
+
+        mAuthService.login(infos, new IServiceResultListener<String>() {
+            @Override
+            public void onResult(ServiceResult<String> result) {
+                if (result.getData() != null) {
+                    Log.i("Login Service", "WORKED");
+                    // Stock the response token into SharedPreferences
+                }
+            }
+        });
+    }
+
     private View.OnClickListener mSubscribeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -45,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mContext = this;
 
         //Init views
 

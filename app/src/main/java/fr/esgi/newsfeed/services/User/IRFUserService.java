@@ -14,9 +14,6 @@ import retrofit2.http.Path;
 
 public interface IRFUserService {
 
-    @POST("users/")
-    Call<ResponseBody> create(@Body User user);
-
     @GET("{path}")
     Call<User> read(@Path(value = "path", encoded = true) String path);
 }
