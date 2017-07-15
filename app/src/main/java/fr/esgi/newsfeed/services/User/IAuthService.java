@@ -1,7 +1,8 @@
 package fr.esgi.newsfeed.services.User;
 
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
-import fr.esgi.newsfeed.models.LoginInformations;
+import fr.esgi.newsfeed.models.Credentials;
+import fr.esgi.newsfeed.models.SessionToken;
 import fr.esgi.newsfeed.models.User;
 
 /**
@@ -12,5 +13,5 @@ public interface IAuthService {
 
     void create(User user, IServiceResultListener<String> resultListener);
 
-    void login(LoginInformations infos, IServiceResultListener<String> resultListener);
+	void login(Credentials infos, IServiceResultListener<SessionToken> resultListener);
 }

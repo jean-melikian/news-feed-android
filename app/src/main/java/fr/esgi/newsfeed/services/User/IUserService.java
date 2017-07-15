@@ -9,5 +9,5 @@ import fr.esgi.newsfeed.models.User;
 
 public interface IUserService {
 
-    void read(String userID, IServiceResultListener<User> resultListener);
+	void getCurrentUser(IServiceResultListener<User> resultListener) throws Exception;
 }

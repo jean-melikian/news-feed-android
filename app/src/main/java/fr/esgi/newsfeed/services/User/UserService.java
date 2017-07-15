@@ -1,13 +1,13 @@
 package fr.esgi.newsfeed.services.User;
 
-import fr.esgi.newsfeed.activities.MyApplication;
+import fr.esgi.newsfeed.application.Session;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
-import fr.esgi.newsfeed.helpers.retrofit.ServiceExceptionType;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceExceptionType;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceGenerator;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.User;
 import retrofit2.Call;
-import okhttp3.ResponseBody;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -17,26 +17,54 @@ import retrofit2.Response;
 
 public class UserService implements IUserService {
 
-    /**
-     * Empty Constructor
-     */
-    public UserService() {
+	private IRFUserService mRfUserService;
 
-    }
+	/**
+	 * Empty Constructor
+	 */
+	public UserService() {
 
-    private IRFUserService mRfUserService;
+	}
+
+	private IRFUserService getTokenMRfUserService() throws ServiceException {
+		if (mRfUserService == null) {
+
+			mRfUserService = ServiceGenerator.createAuthService(IRFUserService.class, Session.get().getSessionToken());
+		}
+		return mRfUserService;
+	}
 
 
-    private IRFUserService getmRfUserService() {
-        if (mRfUserService == null) {
-            mRfUserService = MyApplication.getDefault().create(IRFUserService.class);
-        }
-        return mRfUserService;
-    }
+	@Override
+	public void getCurrentUser(final IServiceResultListener<User> resultListener) throws ServiceException {
+		Call<User> call = getTokenMRfUserService().read("/users/me");
 
-    @Override
-    public void read(String userID, IServiceResultListener<User> resultListener) {
-        Call<User> call = getmRfUserService().read("/users/id");
+		call.enqueue(new Callback<User>() {
+			@Override
+			public void onResponse(Call<User> call, Response<User> response) {
+				ServiceResult<User> result = new ServiceResult<User>();
 
-    }
+				if (response.code() == 200) {
+					result.setData(response.body());
+
+					if (resultListener != null)
+						resultListener.onResult(result);
+				} else {
+					result.setError(new ServiceException(response.code()));
+				}
+			}
+
+			@Override
+			public void onFailure(Call<User> call, Throwable t) {
+				ServiceResult<User> result = new ServiceResult<User>();
+				result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
+
+				if (resultListener != null) {
+					resultListener.onResult(result);
+				}
+			}
+		});
+	}
+
+
 }
