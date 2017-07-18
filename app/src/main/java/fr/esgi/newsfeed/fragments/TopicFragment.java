@@ -1,9 +1,9 @@
 package fr.esgi.newsfeed.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import fr.esgi.newsfeed.R;
+import fr.esgi.newsfeed.activities.MainActivity;
 import fr.esgi.newsfeed.adapters.TopicAdapter;
 import fr.esgi.newsfeed.models.Topic;
 
@@ -38,6 +39,9 @@ public class TopicFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setTitleBar(getActivity().getResources().getString(R.string.topics));
+        }
     }
 
     @Override

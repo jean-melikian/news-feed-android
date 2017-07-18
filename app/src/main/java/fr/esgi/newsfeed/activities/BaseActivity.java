@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import fr.esgi.newsfeed.R;
 
+import static android.view.View.GONE;
+
 
 /**
  * Created by Antoine Pelletier on 11/07/2017.
@@ -39,6 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         this.setContentView(getContentViewId());
 
+        initActionBar(getTitleBarTitle());
         initView();
     }
 
@@ -97,6 +100,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
             }
         });
 
+    }
+
+    public void setBackBtnInvisible() {
+        mIco_back.setVisibility(GONE);
+    }
+
+    public void setBackBtnVisible() {
+        mIco_back.setVisibility(View.VISIBLE);
+    }
+
+    public void setTitleBar(String title) {
+        mTxtTitleBar.setText(title);
     }
 
     @Override

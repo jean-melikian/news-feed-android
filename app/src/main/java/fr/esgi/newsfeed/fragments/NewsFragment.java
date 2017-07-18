@@ -1,8 +1,9 @@
 package fr.esgi.newsfeed.fragments;
 
+import android.app.Fragment;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,14 +15,21 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import fr.esgi.newsfeed.R;
+import fr.esgi.newsfeed.activities.MainActivity;
 import fr.esgi.newsfeed.adapters.NewsAdapter;
+import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.News;
+import fr.esgi.newsfeed.services.news.NewsService;
 
 public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickListener {
 
     private RecyclerView mRecyclerView;
     private NewsAdapter mNewsAdapter;
     private List<News> mLstNews;
+
+    private NewsService mNewsService;
 
 
     ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -36,7 +44,10 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
 
             if (direction == ItemTouchHelper.RIGHT) {    //if swipe left
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext()); //alert for confirm to delete
+                AlertDialog.Builder builder = null; //alert for confirm to delete
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    builder = new AlertDialog.Builder(getContext());
+                }
                 builder.setMessage("SUPPRIMER");    //set message
 
                 builder.setPositiveButton("Etes vous sûr de vouloir supprimer ?", new DialogInterface.OnClickListener() { //when click on DELETE
@@ -68,6 +79,9 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setTitleBar(getActivity().getResources().getString(R.string.news));
+        }
     }
 
     @Override
@@ -79,8 +93,12 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
 
         mLstNews = getNews();
 
-        mNewsAdapter = new NewsAdapter(mLstNews, getContext());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mNewsAdapter = new NewsAdapter(mLstNews, getContext());
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
         mRecyclerView.setAdapter(mNewsAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -89,7 +107,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     }
 
     @Override
-    public void onItemClicked(News favoriteModel) {
+    public void onItemClicked(News news) {
         // TODO : Launch fragment NewsDetailedFragment
     }
 
@@ -100,6 +118,20 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
      */
     public List<News> getNews() {
         // TODO : implement the service
+        mNewsService = new NewsService();
+        try {
+            mNewsService.getNewsList(new IServiceResultListener<List<News>>() {
+
+                @Override
+                public void onResult(ServiceResult<List<News>> result) {
+                    mLstNews = result.getData();
+                }
+            });
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
+
         return null;
     }
 }

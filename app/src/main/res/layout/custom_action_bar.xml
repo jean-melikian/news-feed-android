@@ -7,74 +7,53 @@
     android:background="@color/white"
     android:foreground="?android:windowContentOverlay"
     android:gravity="fill_horizontal"
+    android:minHeight="?attr/actionBarSize"
     app:contentInsetEnd="0dp"
     app:contentInsetLeft="0dp"
     app:contentInsetRight="0dp"
     app:contentInsetStart="0dp">
 
-    <LinearLayout
-        android:id="@+id/layout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+
+    <ImageView
+        android:id="@+id/actionbar_ic_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_centerVertical="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/mc_back_arrow_white"
+        android:tint="@color/black"
+        android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/actionbar_ic_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:src="@drawable/mc_back_arrow_white"
-            android:tint="@color/black"
-            android:visibility="visible" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_title"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
+    <TextView
+        android:id="@+id/txt_action_title"
+        style="@style/TextTitleActionbarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center_vertical|center_horizontal"
-        android:orientation="horizontal">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:text="Green House"
+        android:textColor="@color/black"
+        android:textStyle="normal" />
 
-        <TextView
-            android:id="@+id/txt_action_title"
-            style="@style/TextTitleActionbarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:singleLine="true"
-            android:text="Green House"
-            android:textColor="@color/black"
-            android:textStyle="normal" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_account"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ImageView
+        android:id="@+id/actionbar_ic_account"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:orientation="horizontal">
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/ico_user_black"
+        android:tint="@color/black"
+        android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/actionbar_ic_account"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:src="@drawable/mc_back_arrow_white"
-            android:tint="@color/black"
-            android:visibility="visible" />
-
-    </LinearLayout>
 
 </RelativeLayout>
