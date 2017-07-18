@@ -3,7 +3,6 @@ package fr.esgi.newsfeed.activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,17 +10,9 @@ import android.widget.Toast;
 
 import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
-import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.User;
-import fr.esgi.newsfeed.services.User.AuthService;
-import fr.esgi.newsfeed.services.User.IRFUserService;
-import fr.esgi.newsfeed.services.User.IUserService;
-import fr.esgi.newsfeed.services.User.UserService;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import fr.esgi.newsfeed.services.auth.AuthService;
 
 /**
  * Created by antoinepelletier on 12/07/2017.

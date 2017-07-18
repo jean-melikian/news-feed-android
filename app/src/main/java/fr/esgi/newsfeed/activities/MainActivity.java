@@ -10,7 +10,7 @@ import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.User;
-import fr.esgi.newsfeed.services.User.UserService;
+import fr.esgi.newsfeed.services.user.UserService;
 
 public class MainActivity extends AppCompatActivity {
 
