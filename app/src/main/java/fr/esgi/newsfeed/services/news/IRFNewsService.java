@@ -1,4 +1,4 @@
-package fr.esgi.newsfeed.services.User;
+package fr.esgi.newsfeed.services.news;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public interface IRFNewsService {
     Call<News> getNewsById(@Path("news_id") String id);
 
     @DELETE("/news/{news_id}")
-    Call<News> deleteNews(@Path("news_id") String id);
+    Call<ResponseBody> deleteNews(@Path("news_id") String id);
 
     @PUT("/news")
     Call<News> updateNews(@Body News news);

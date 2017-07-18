@@ -1,4 +1,4 @@
-package fr.esgi.newsfeed.services.User;
+package fr.esgi.newsfeed.services.auth;
 
 import fr.esgi.newsfeed.activities.MyApplication;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;

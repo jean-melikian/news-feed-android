@@ -1,4 +1,4 @@
-package fr.esgi.newsfeed.services.User;
+package fr.esgi.newsfeed.services.news;
 
 import java.util.List;
 
@@ -23,19 +23,12 @@ public class NewsService implements INewsService {
 
     private IRFNewsService mRfNewsService;
     private SessionToken currentToken;
-    private String token;
 
     /**
      * Empty Constructor
      */
     public NewsService() {
-        try {
-            currentToken = Session.get().getSessionToken();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
 
-        token = currentToken.getToken();
     }
 
     private IRFNewsService getmRfNewsService() {
@@ -130,15 +123,15 @@ public class NewsService implements INewsService {
     }
 
     @Override
-    public void deleteNews(String id, final IServiceResultListener<News> resultListener) {
-        Call<News> call = getmRfNewsService().deleteNews(id);
+    public void deleteNews(String id, final IServiceResultListener<String> resultListener) {
+        Call<ResponseBody> call = getmRfNewsService().deleteNews(id);
 
-        call.enqueue(new Callback<News>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<News> call, Response<News> response) {
-                ServiceResult<News> result = new ServiceResult<>();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ServiceResult<String> result = new ServiceResult<>();
                 if (response.code() == 200) {
-                    result.setData(response.body());
+                    result.setData(response.body().toString());
 
                     if (resultListener != null)
                         resultListener.onResult(result);
@@ -148,8 +141,8 @@ public class NewsService implements INewsService {
             }
 
             @Override
-            public void onFailure(Call<News> call, Throwable t) {
-                ServiceResult<News> result = new ServiceResult<>();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ServiceResult<String> result = new ServiceResult<>();
                 result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
                 if (resultListener != null)
                     resultListener.onResult(result);
