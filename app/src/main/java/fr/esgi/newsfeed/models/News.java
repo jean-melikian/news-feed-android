@@ -1,5 +1,8 @@
 package fr.esgi.newsfeed.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -50,6 +53,5 @@ public class News implements Serializable {
         this.content = content;
         this.date = date;
     }
-
 
 }

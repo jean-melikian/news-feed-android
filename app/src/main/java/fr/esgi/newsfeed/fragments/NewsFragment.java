@@ -1,6 +1,7 @@
 package fr.esgi.newsfeed.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -29,7 +32,11 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     private NewsAdapter mNewsAdapter;
     private List<News> mLstNews;
 
+    private Button mBtn_add_news;
+
     private NewsService mNewsService;
+
+    private static String CURRENT_NEWS = "CURRENT_NEWS";
 
 
     ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -42,7 +49,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition(); //get position which is swipe
 
-            if (direction == ItemTouchHelper.RIGHT) {    //if swipe left
+            if (direction == ItemTouchHelper.RIGHT) {    //if swipe on right
 
                 AlertDialog.Builder builder = null; //alert for confirm to delete
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -54,8 +61,25 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mNewsAdapter.notifyItemRemoved(position);    //item removed from recylcerview
-                        // TODO Launch Delete Service
-                        mLstNews.remove(position);  //then remove item
+                        mNewsService = new NewsService();
+                        try {
+                            mNewsService.deleteNews(mLstNews.get(position).get_id(), new IServiceResultListener<String>() {
+                                @Override
+                                public void onResult(ServiceResult<String> result) {
+                                    if (result.getData() != null) {
+                                        mLstNews.remove(position);  //then remove item
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                            Toast.makeText(getContext(), "Your news has been deleted.", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "A problem occured during the suppresion, please try again.", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+                            });
+                        } catch (ServiceException e) {
+                            e.printStackTrace();
+                        }
+
                         return;
                     }
                 }).setNegativeButton("ANNULER", new DialogInterface.OnClickListener() {  //not removing items if cancel is done
@@ -103,12 +127,29 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        mBtn_add_news = (Button) v.findViewById(R.id.btn_add_news);
+        mBtn_add_news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsAddFragment newsAddFragment = new NewsAddFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.container, newsAddFragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
         return v;
     }
 
     @Override
     public void onItemClicked(News news) {
-        // TODO : Launch fragment NewsDetailedFragment
+        NewsDetailedFragment fragment = new NewsDetailedFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CURRENT_NEWS, news);
+        fragment.setArguments(bundle);
     }
 
     /**
@@ -117,7 +158,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
      * @return
      */
     public List<News> getNews() {
-        // TODO : implement the service
         mNewsService = new NewsService();
         try {
             mNewsService.getNewsList(new IServiceResultListener<List<News>>() {

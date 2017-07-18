@@ -66,7 +66,7 @@ public class SubscribeActivity extends AppCompatActivity {
             @Override
             public void onResult(ServiceResult<String> result) {
                 if (result.getData() != null) {
-                    Toast.makeText(mContext, "Votre compte a bien été crée", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Your account has been created.", Toast.LENGTH_LONG).show();
                 }
             }
         });
