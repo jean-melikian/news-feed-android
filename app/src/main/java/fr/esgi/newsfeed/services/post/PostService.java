@@ -2,11 +2,15 @@ package fr.esgi.newsfeed.services.post;
 
 import java.util.List;
 
+import fr.esgi.newsfeed.application.Session;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceExceptionType;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceGenerator;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.Post;
+import fr.esgi.newsfeed.models.SessionToken;
+import fr.esgi.newsfeed.services.topic.IRFTopicService;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,16 +32,17 @@ public class PostService implements IPostService {
 
     }
 
-    private IRFPostService getmRfPostService() {
+    private IRFPostService getTokenMRfPostService() throws ServiceException {
         if (mRfPostService == null) {
-            mRfPostService = ServiceGenerator.createService(IRFPostService.class);
+
+            mRfPostService = ServiceGenerator.createAuthService(IRFPostService.class, Session.get().getSessionToken());
         }
         return mRfPostService;
     }
 
     @Override
-    public void createPost(Post post, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfPostService().createPost(post);
+    public void createPost(Post post, final IServiceResultListener<String> resultListener) throws ServiceException {
+        Call<ResponseBody> call = getTokenMRfPostService().createPost(post);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -64,8 +69,8 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void getPostsList(final IServiceResultListener<List<Post>> resultListener) {
-        Call<List<Post>> call = getmRfPostService().getPostsList();
+    public void getPostsList(final IServiceResultListener<List<Post>> resultListener) throws ServiceException {
+        Call<List<Post>> call = getTokenMRfPostService().getPostsList();
 
         call.enqueue(new Callback<List<Post>>() {
             @Override
@@ -90,8 +95,8 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void getPostById(String id, final IServiceResultListener<Post> resultListener) {
-        Call<Post> call = getmRfPostService().getPostById(id);
+    public void getPostById(String id, final IServiceResultListener<Post> resultListener) throws ServiceException {
+        Call<Post> call = getTokenMRfPostService().getPostById(id);
 
         call.enqueue(new Callback<Post>() {
             @Override
@@ -119,8 +124,8 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void deletePost(String id, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfPostService().deletePost(id);
+    public void deletePost(String id, final IServiceResultListener<String> resultListener) throws ServiceException {
+        Call<ResponseBody> call = getTokenMRfPostService().deletePost(id);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -148,8 +153,8 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void updatePost(Post post, final IServiceResultListener<Post> resultListener) {
-        Call<Post> call = getmRfPostService().updatePost(post);
+    public void updatePost(Post post, final IServiceResultListener<Post> resultListener) throws ServiceException {
+        Call<Post> call = getTokenMRfPostService().updatePost(post);
 
         call.enqueue(new Callback<Post>() {
             @Override

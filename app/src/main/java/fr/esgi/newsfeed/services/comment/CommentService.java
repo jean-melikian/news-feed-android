@@ -2,12 +2,13 @@ package fr.esgi.newsfeed.services.comment;
 
 import java.util.List;
 
+import fr.esgi.newsfeed.application.Session;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceExceptionType;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceGenerator;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.Comment;
-import fr.esgi.newsfeed.services.news.IRFNewsService;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +21,6 @@ import retrofit2.Response;
 public class CommentService implements ICommentService {
 
     private IRFCommentService mRfCommentService;
-    private SessionToken currentToken;
 
     /**
      * Empty Constructor
@@ -29,17 +29,18 @@ public class CommentService implements ICommentService {
 
     }
 
-    private IRFCommentService getmRfCommentService() {
+    private IRFCommentService getTokenMRfCommentService() throws ServiceException {
         if (mRfCommentService == null) {
-            mRfCommentService = ServiceGenerator.createService(IRFNewsService.class);
+
+            mRfCommentService = ServiceGenerator.createAuthService(IRFCommentService.class, Session.get().getSessionToken());
         }
         return mRfCommentService;
     }
 
     @Override
-    public void createComment(Comment comment, final IServiceResultListener<String> resultListener) {
+    public void createComment(Comment comment, final IServiceResultListener<String> resultListener) throws ServiceException {
 
-        Call<ResponseBody> call = getmRfCommentService().createComment(comment);
+        Call<ResponseBody> call = getTokenMRfCommentService().createComment(comment);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -66,8 +67,8 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public void getCommentsList(final IServiceResultListener<List<Comment>> resultListener) {
-        Call<List<Comment>> call = getmRfCommentService().getCommentsList();
+    public void getCommentsList(final IServiceResultListener<List<Comment>> resultListener) throws ServiceException {
+        Call<List<Comment>> call = getTokenMRfCommentService().getCommentsList();
 
         call.enqueue(new Callback<List<Comment>>() {
             @Override
@@ -92,8 +93,8 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public void getCommentById(String id, final IServiceResultListener<Comment> resultListener) {
-        Call<Comment> call = getmRfCommentService().getCommentById(id);
+    public void getCommentById(String id, final IServiceResultListener<Comment> resultListener) throws ServiceException {
+        Call<Comment> call = getTokenMRfCommentService().getCommentById(id);
 
         call.enqueue(new Callback<Comment>() {
             @Override
@@ -121,8 +122,8 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public void deleteComment(String id, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfCommentService().deleteComment(id);
+    public void deleteComment(String id, final IServiceResultListener<String> resultListener) throws ServiceException {
+        Call<ResponseBody> call = getTokenMRfCommentService().deleteComment(id);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -150,8 +151,8 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public void updateComment(Comment comment, final IServiceResultListener<Comment> resultListener) {
-        Call<Comment> call = getmRfCommentService().updateComment(comment);
+    public void updateComment(Comment comment, final IServiceResultListener<Comment> resultListener) throws ServiceException {
+        Call<Comment> call = getTokenMRfCommentService().updateComment(comment);
 
         call.enqueue(new Callback<Comment>() {
             @Override

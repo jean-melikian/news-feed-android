@@ -1,6 +1,7 @@
 package fr.esgi.newsfeed.services.user;
 
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.models.News;
 import fr.esgi.newsfeed.models.Topic;
 import fr.esgi.newsfeed.models.User;
@@ -11,8 +12,7 @@ import fr.esgi.newsfeed.models.User;
 
 public interface IUserService {
 
-    void read(String userID, IServiceResultListener<User> resultListener);
-
-    void updateUser(User user, IServiceResultListener<User> resultListener);
-
+	void getCurrentUser(IServiceResultListener<User> resultListener) throws Exception;
+	
+	void updateUser(User user, IServiceResultListener<User> resultListener) throws ServiceException;
 }

@@ -14,10 +14,9 @@ import retrofit2.http.Path;
 
 public interface IRFUserService {
 
-    @GET("{path}/{user_id}")
-    Call<User> read(@Path(value = "path", encoded = true) String path, @Path("news_id") String id);
+    @GET("{path}")
+    Call<User> read(@Path(value = "path", encoded = true) String path);
 
-
-    @PUT("{path}")
-    Call<User> updateUser(@Path(value = "path", encoded = true) String path, @Body User user);
+    @PUT("/users")
+    Call<User> updateUser(@Body User user);
 }

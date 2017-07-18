@@ -31,17 +31,18 @@ public class NewsService implements INewsService {
 
     }
 
-    private IRFNewsService getmRfNewsService() {
+    private IRFNewsService getTokenMRfNewsService() throws ServiceException {
         if (mRfNewsService == null) {
-            mRfNewsService = ServiceGenerator.createService(IRFNewsService.class);
+
+            mRfNewsService = ServiceGenerator.createAuthService(IRFNewsService.class, Session.get().getSessionToken());
         }
         return mRfNewsService;
     }
 
     @Override
-    public void createNews(News news, final IServiceResultListener<String> resultListener) {
+    public void createNews(News news, final IServiceResultListener<String> resultListener) throws ServiceException {
 
-        Call<ResponseBody> call = getmRfNewsService().createNews(news);
+        Call<ResponseBody> call = getTokenMRfNewsService().createNews(news);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -68,8 +69,8 @@ public class NewsService implements INewsService {
     }
 
     @Override
-    public void getNewsList(final IServiceResultListener<List<News>> resultListener) {
-        Call<List<News>> call = getmRfNewsService().getNewsList();
+    public void getNewsList(final IServiceResultListener<List<News>> resultListener) throws ServiceException {
+        Call<List<News>> call = getTokenMRfNewsService().getNewsList();
 
         call.enqueue(new Callback<List<News>>() {
             @Override
@@ -94,8 +95,8 @@ public class NewsService implements INewsService {
     }
 
     @Override
-    public void getNewsById(String id, final IServiceResultListener<News> resultListener) {
-        Call<News> call = getmRfNewsService().getNewsById(id);
+    public void getNewsById(String id, final IServiceResultListener<News> resultListener) throws ServiceException {
+        Call<News> call = getTokenMRfNewsService().getNewsById(id);
 
         call.enqueue(new Callback<News>() {
             @Override
@@ -123,8 +124,8 @@ public class NewsService implements INewsService {
     }
 
     @Override
-    public void deleteNews(String id, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfNewsService().deleteNews(id);
+    public void deleteNews(String id, final IServiceResultListener<String> resultListener) throws ServiceException {
+        Call<ResponseBody> call = getTokenMRfNewsService().deleteNews(id);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -152,8 +153,8 @@ public class NewsService implements INewsService {
     }
 
     @Override
-    public void updateNews(News news, final IServiceResultListener<News> resultListener) {
-        Call<News> call = getmRfNewsService().updateNews(news);
+    public void updateNews(News news, final IServiceResultListener<News> resultListener) throws ServiceException {
+        Call<News> call = getTokenMRfNewsService().updateNews(news);
 
         call.enqueue(new Callback<News>() {
             @Override

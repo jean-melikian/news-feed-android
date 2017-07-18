@@ -28,18 +28,20 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/btnSize_regular"
             android:hint="@string/email"
-            android:maxLines="1"
             android:inputType="textEmailAddress"
-            android:nextFocusDown="@+id/eT_password"/>
+            android:maxLines="1"
+            android:nextFocusDown="@+id/eT_password"
+            android:text="toto@bob.com"/>
 
         <EditText
             android:id="@+id/eT_password"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btnSize_regular"
             android:hint="@string/password"
-            android:maxLines="1"
             android:inputType="textWebPassword"
-            android:nextFocusDown="@+id/btn_connexion_login"/>
+            android:maxLines="1"
+            android:nextFocusDown="@+id/btn_connexion_login"
+            android:text="test"/>
 
         <Button
             android:id="@+id/btn_connexion_login"

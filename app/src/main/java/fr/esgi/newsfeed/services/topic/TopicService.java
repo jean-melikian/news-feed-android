@@ -2,10 +2,13 @@ package fr.esgi.newsfeed.services.topic;
 
 import java.util.List;
 
+import fr.esgi.newsfeed.application.Session;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceExceptionType;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceGenerator;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
+import fr.esgi.newsfeed.models.SessionToken;
 import fr.esgi.newsfeed.models.Topic;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -28,16 +31,17 @@ public class TopicService implements ITopicService {
 
     }
 
-    private IRFTopicService getmRfTopicService() {
+    private IRFTopicService getTokenMRfTopicService() throws ServiceException {
         if (mRfTopicService == null) {
-            mRfTopicService = ServiceGenerator.createService(IRFTopicService.class);
+
+            mRfTopicService = ServiceGenerator.createAuthService(IRFTopicService.class, Session.get().getSessionToken());
         }
         return mRfTopicService;
     }
 
     @Override
-    public void createTopic(Topic topic, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfTopicService().createTopic(topic);
+    public void createTopic(Topic topic, final IServiceResultListener<String> resultListener) throws ServiceException {
+        Call<ResponseBody> call = getTokenMRfTopicService().createTopic(topic);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -64,8 +68,8 @@ public class TopicService implements ITopicService {
     }
 
     @Override
-    public void getTopicsList(final IServiceResultListener<List<Topic>> resultListener) {
-        Call<List<Topic>> call = getmRfTopicService().getTopicsList();
+    public void getTopicsList(final IServiceResultListener<List<Topic>> resultListener) throws ServiceException {
+        Call<List<Topic>> call = getTokenMRfTopicService().getTopicsList();
 
         call.enqueue(new Callback<List<Topic>>() {
             @Override
@@ -90,8 +94,8 @@ public class TopicService implements ITopicService {
     }
 
     @Override
-    public void getTopicById(String id, final IServiceResultListener<Topic> resultListener) {
-        Call<Topic> call = getmRfTopicService().getTopicById(id);
+    public void getTopicById(String id, final IServiceResultListener<Topic> resultListener) throws ServiceException {
+        Call<Topic> call = getTokenMRfTopicService().getTopicById(id);
 
         call.enqueue(new Callback<Topic>() {
             @Override
@@ -119,8 +123,8 @@ public class TopicService implements ITopicService {
     }
 
     @Override
-    public void deleteTopic(String id, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfTopicService().deleteTopic(id);
+    public void deleteTopic(String id, final IServiceResultListener<String> resultListener) throws ServiceException {
+        Call<ResponseBody> call = getTokenMRfTopicService().deleteTopic(id);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -148,8 +152,8 @@ public class TopicService implements ITopicService {
     }
 
     @Override
-    public void updateTopic(Topic topic, final IServiceResultListener<Topic> resultListener) {
-        Call<Topic> call = getmRfTopicService().updateTopic(topic);
+    public void updateTopic(Topic topic, final IServiceResultListener<Topic> resultListener) throws ServiceException {
+        Call<Topic> call = getTokenMRfTopicService().updateTopic(topic);
 
         call.enqueue(new Callback<Topic>() {
             @Override

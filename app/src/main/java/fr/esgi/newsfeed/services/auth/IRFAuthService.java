@@ -1,6 +1,6 @@
 package fr.esgi.newsfeed.services.auth;
 
-import fr.esgi.newsfeed.models.LoginInformations;
+import fr.esgi.newsfeed.models.Credentials;
 import fr.esgi.newsfeed.models.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -17,5 +17,5 @@ public interface IRFAuthService {
     Call<ResponseBody> create(@Body User user);
 
     @POST("/auth/login")
-    Call<ResponseBody> login(@Body LoginInformations loginInformations);
+    Call<String> login(@Body Credentials credentials);
 }

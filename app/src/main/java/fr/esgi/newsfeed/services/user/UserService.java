@@ -1,9 +1,10 @@
 package fr.esgi.newsfeed.services.user;
 
-import fr.esgi.newsfeed.activities.MyApplication;
+import fr.esgi.newsfeed.application.Session;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceExceptionType;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceGenerator;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
 import fr.esgi.newsfeed.models.User;
 import retrofit2.Call;
@@ -16,6 +17,8 @@ import retrofit2.Response;
 
 public class UserService implements IUserService {
 
+    private IRFUserService mRfUserService;
+
     /**
      * Empty Constructor
      */
@@ -23,24 +26,24 @@ public class UserService implements IUserService {
 
     }
 
-    private IRFUserService mRfUserService;
-
-
-    private IRFUserService getmRfUserService() {
+    private IRFUserService getTokenMRfUserService() throws ServiceException {
         if (mRfUserService == null) {
-            mRfUserService = MyApplication.getDefault().create(IRFUserService.class);
+
+            mRfUserService = ServiceGenerator.createAuthService(IRFUserService.class, Session.get().getSessionToken());
         }
         return mRfUserService;
     }
 
+
     @Override
-    public void read(String userID, final IServiceResultListener<User> resultListener) {
-        Call<User> call = getmRfUserService().read("/users/", userID);
+    public void getCurrentUser(final IServiceResultListener<User> resultListener) throws ServiceException {
+        Call<User> call = getTokenMRfUserService().read("/users/me");
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                ServiceResult<User> result = new ServiceResult<>();
+                ServiceResult<User> result = new ServiceResult<User>();
+
                 if (response.code() == 200) {
                     result.setData(response.body());
 
@@ -53,18 +56,19 @@ public class UserService implements IUserService {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                ServiceResult<User> result = new ServiceResult<>();
+                ServiceResult<User> result = new ServiceResult<User>();
                 result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
-                if (resultListener != null)
-                    resultListener.onResult(result);
 
+                if (resultListener != null) {
+                    resultListener.onResult(result);
+                }
             }
         });
     }
 
     @Override
-    public void updateUser(User user, final IServiceResultListener<User> resultListener) {
-        Call<User> call = getmRfUserService().updateUser("/users", user);
+    public void updateUser(User user, final IServiceResultListener<User> resultListener) throws ServiceException {
+        Call<User> call = getTokenMRfUserService().updateUser(user);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -89,4 +93,5 @@ public class UserService implements IUserService {
             }
         });
     }
+
 }

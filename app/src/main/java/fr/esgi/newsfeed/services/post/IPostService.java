@@ -3,6 +3,7 @@ package fr.esgi.newsfeed.services.post;
 import java.util.List;
 
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
+import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.models.Post;
 
 /**
@@ -11,13 +12,13 @@ import fr.esgi.newsfeed.models.Post;
 
 public interface IPostService {
 
-    void createPost(Post post, IServiceResultListener<String> resultListener);
+    void createPost(Post post, IServiceResultListener<String> resultListener) throws ServiceException;
 
-    void getPostsList(IServiceResultListener<List<Post>> resultListener);
+    void getPostsList(IServiceResultListener<List<Post>> resultListener) throws ServiceException;
 
-    void getPostById(String id, IServiceResultListener<Post> resultListener);
+    void getPostById(String id, IServiceResultListener<Post> resultListener) throws ServiceException;
 
-    void deletePost(String id, IServiceResultListener<String> resultListener);
+    void deletePost(String id, IServiceResultListener<String> resultListener) throws ServiceException;
 
-    void updatePost(Post post, IServiceResultListener<Post> resultListener);
+    void updatePost(Post post, IServiceResultListener<Post> resultListener) throws ServiceException;
 }
