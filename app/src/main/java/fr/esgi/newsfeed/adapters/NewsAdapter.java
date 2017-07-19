@@ -76,6 +76,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
         mNews.remove(position);
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
+    }
 
     private class OnClick implements View.OnClickListener {
 

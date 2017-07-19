@@ -1,9 +1,9 @@
 package fr.esgi.newsfeed.fragments.news;
 
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +19,6 @@ import java.util.List;
 
 import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.adapters.CommentsAdapter;
-import fr.esgi.newsfeed.adapters.NewsAdapter;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
@@ -65,12 +64,14 @@ public class NewsDetailedFragment extends Fragment implements CommentsAdapter.On
                 mNewsService.deleteNews(currentNews.get_id(), new IServiceResultListener<String>() {
                     @Override
                     public void onResult(ServiceResult<String> result) {
-                        if (result.getData() != null) {
+                        if (result.getData().equals("204")) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 Toast.makeText(getContext(), "Your news has been deleted.", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(getContext(), "A problem occured during the suppresion, please try again.", Toast.LENGTH_LONG).show();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                Toast.makeText(getContext(), "A problem occured during the suppresion, please try again.", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });
