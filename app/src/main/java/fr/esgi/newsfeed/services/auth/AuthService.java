@@ -77,8 +77,6 @@ public class AuthService implements IAuthService {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 ServiceResult<SessionToken> result = new ServiceResult<>();
-                Log.e("Auth", String.valueOf(response.code()));
-                Log.e("Auth", response.body());
                 if (response.isSuccessful()) {
 
                     Log.d("Auth", "Token: " + response.body());
