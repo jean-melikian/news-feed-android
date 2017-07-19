@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.esgi.newsfeed.R;
@@ -20,7 +21,7 @@ import fr.esgi.newsfeed.viewHolder.NewsViewHolder;
 public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
     private Context mContext;
-    private List<News> mNews;
+    private List<News> mNews = new ArrayList<>();
     private int mLayout_resource;
 
     private OnItemClickListener mOnItemClickListener;
@@ -30,15 +31,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
     }
 
     public NewsAdapter(List<News> mDataList, Context context) {
-        if (mNews != null) {
-            mNews.clear();
-            mNews.addAll(mDataList);
-            this.notifyDataSetChanged();
-            mContext = context;
-        } else {
-            mNews = mDataList;
-            mContext = context;
-        }
+        mNews.clear();
+        mNews.addAll(mDataList);
+        this.notifyDataSetChanged();
+        mContext = context;
     }
 
     @Override

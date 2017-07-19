@@ -119,16 +119,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
 
         mLstNews = getNews();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mNewsAdapter = new NewsAdapter(mLstNews, getContext());
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        }
-        mRecyclerView.setAdapter(mNewsAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
         mBtn_add_news = (Button) v.findViewById(R.id.btn_add_news);
         mBtn_add_news.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +157,15 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
                 @Override
                 public void onResult(ServiceResult<List<News>> result) {
                     mLstNews = result.getData();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        mNewsAdapter = new NewsAdapter(mLstNews, getContext());
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    }
+                    mRecyclerView.setAdapter(mNewsAdapter);
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+                    itemTouchHelper.attachToRecyclerView(mRecyclerView);
                 }
             });
         } catch (ServiceException e) {
