@@ -8,12 +8,14 @@
     <EditText
         android:id="@+id/editTexT_title_news"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/btnSize_regular" />
+        android:layout_height="@dimen/btnSize_regular"
+        android:hint="@string/title" />
 
 
     <EditText
         android:id="@+id/editTexT_content_news"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/btnSize_regular" />
+        android:layout_height="@dimen/btnSize_regular"
+        android:hint="@string/content" />
 
 </LinearLayout>

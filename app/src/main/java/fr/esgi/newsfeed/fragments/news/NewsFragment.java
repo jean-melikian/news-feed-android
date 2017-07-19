@@ -54,15 +54,16 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
 
                 AlertDialog.Builder builder = null; //alert for confirm to delete
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    builder = new AlertDialog.Builder(getContext());
+                    builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
                 }
-                builder.setMessage("SUPPRIMER");    //set message
+                builder.setMessage("Are you sure to delete this news");    //set message
+                builder.setTitle("DELETE NEWS");    //set message
 
-                builder.setPositiveButton("Etes vous sûr de vouloir supprimer ?", new DialogInterface.OnClickListener() { //when click on DELETE
+                builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() { //when click on DELETE
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mNewsAdapter.notifyItemRemoved(position);    //item removed from recylcerview
                         mNewsService = new NewsService();
+                        mNewsAdapter.notifyItemRemoved(position);
                         try {
                             mNewsService.deleteNews(mLstNews.get(position).get_id(), new IServiceResultListener<String>() {
                                 @Override
@@ -85,7 +86,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
 
                         return;
                     }
-                }).setNegativeButton("ANNULER", new DialogInterface.OnClickListener() {  //not removing items if cancel is done
+                }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {  //not removing items if cancel is done
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mNewsAdapter.notifyItemRemoved(position + 1);    //notifies the RecyclerView Adapter that data in adapter has been removed at a particular position.
