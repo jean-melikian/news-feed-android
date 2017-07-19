@@ -62,6 +62,7 @@ public class SubscribeActivity extends AppCompatActivity {
     private void LaunchSubrscriptionService(User user) {
         mAuthService = new AuthService();
 
+
         mAuthService.create(user, new IServiceResultListener<String>() {
             @Override
             public void onResult(ServiceResult<String> result) {

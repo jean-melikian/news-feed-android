@@ -1,5 +1,9 @@
 package fr.esgi.newsfeed.models;
 
+import android.support.annotation.Nullable;
+
+import fr.esgi.newsfeed.helpers.retrofit.ExcludeFromDeserialization;
+
 /**
  * Created by norbert on 30/06/2017.
  */
@@ -7,9 +11,37 @@ package fr.esgi.newsfeed.models;
 public class User {
 
     private String email;
+    @ExcludeFromDeserialization
+    @Nullable
     private String password;
     private String firstname;
     private String lastname;
+
+    /**
+     * Constructor
+     *
+     * @param email
+     * @param password
+     * @param firstname
+     * @param lastname
+     */
+    public User(String email, String password, String firstname, String lastname) {
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+    /**
+     * Constructor
+     *
+     * @param email
+     * @param password
+     */
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public String getEmail() {
         return email;
@@ -41,32 +73,6 @@ public class User {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    /**
-     * Constructor
-     *
-     * @param email
-     * @param password
-     * @param firstname
-     * @param lastname
-     */
-    public User(String email, String password, String firstname, String lastname) {
-        this.email = email;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
-    /**
-     * Constructor
-     *
-     * @param email
-     * @param password
-     */
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
     }
 
     @Override

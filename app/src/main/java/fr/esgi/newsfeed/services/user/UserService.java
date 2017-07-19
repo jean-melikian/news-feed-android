@@ -1,5 +1,7 @@
 package fr.esgi.newsfeed.services.user;
 
+import android.util.Log;
+
 import fr.esgi.newsfeed.application.Session;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
@@ -26,6 +28,11 @@ public class UserService implements IUserService {
 
     }
 
+    private IRFUserService getmRfUserService() {
+        mRfUserService = ServiceGenerator.createService(IRFUserService.class);
+        return mRfUserService;
+    }
+
     private IRFUserService getTokenMRfUserService() throws ServiceException {
         if (mRfUserService == null) {
 
@@ -42,9 +49,14 @@ public class UserService implements IUserService {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+
+                Log.d("UserService", "onResponse");
                 ServiceResult<User> result = new ServiceResult<User>();
 
                 if (response.code() == 200) {
+
+                    if (response.body() != null)
+                        Log.e("UserService", response.body().toString());
                     result.setData(response.body());
 
                     if (resultListener != null)
@@ -56,9 +68,10 @@ public class UserService implements IUserService {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Log.d("UserService", "onFailure");
                 ServiceResult<User> result = new ServiceResult<User>();
                 result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
-
+                t.printStackTrace();
                 if (resultListener != null) {
                     resultListener.onResult(result);
                 }

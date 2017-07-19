@@ -1,5 +1,7 @@
 package fr.esgi.newsfeed.helpers.retrofit;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -26,6 +28,7 @@ public class AuthenticationInterceptor implements Interceptor {
 				.header("Authorization", authToken);
 
 		Request request = builder.build();
+		Log.d("ServiceGenerator", String.format("Interceptor request: %s", request.toString()));
 		return chain.proceed(request);
 	}
 }

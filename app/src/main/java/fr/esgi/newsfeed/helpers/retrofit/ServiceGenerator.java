@@ -1,5 +1,7 @@
 package fr.esgi.newsfeed.helpers.retrofit;
 
+import android.util.Log;
+
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -18,22 +20,23 @@ public class ServiceGenerator {
 
 	private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-	private static Retrofit retrofit = getDefault();
+	private static Retrofit defaultRetrofit = getDefault();
+	private static Retrofit authRetrofit;
 
 	public static Retrofit getDefault() {
-		if (retrofit == null) {
-			retrofit = new Retrofit.Builder()
+		if (defaultRetrofit == null) {
+			defaultRetrofit = new Retrofit.Builder()
 					.baseUrl(Constants.getBaseURL())
 					.addConverterFactory(ScalarsConverterFactory.create())
 					.addConverterFactory(GsonConverterFactory.create(getGson()))
 					.client(httpClient.build())
 					.build();
 		}
-		return retrofit;
+		return defaultRetrofit;
 	}
 
 	public static <S> S createService(Class<S> serviceClass) {
-		return createAuthService(serviceClass, null);
+		return getDefault().create(serviceClass);
 	}
 
 	/**
@@ -46,16 +49,25 @@ public class ServiceGenerator {
 	 */
 	public static <S> S createAuthService(Class<S> serviceClass, final SessionToken authToken) {
 		if (authToken != null && authToken.validateToken()) {
+			Log.d("ServiceGenerator", String.format("Valid token %s", authToken.getToken()));
 			AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken.getToken());
 
 			if (!httpClient.interceptors().contains(interceptor)) {
-				httpClient.addInterceptor(interceptor);
+				httpClient.interceptors().add(interceptor);
 
-				retrofit = getDefault();
+				Log.d("ServiceGenerator", "Added interceptor !");
+				if (authRetrofit == null) {
+					authRetrofit = new Retrofit.Builder()
+							.baseUrl(Constants.getBaseURL())
+							.addConverterFactory(ScalarsConverterFactory.create())
+							.addConverterFactory(GsonConverterFactory.create(getGson()))
+							.client(httpClient.build())
+							.build();
+				}
 			}
 		}
 
-		return retrofit.create(serviceClass);
+		return authRetrofit.create(serviceClass);
 	}
 
 	private static Gson getGson() {

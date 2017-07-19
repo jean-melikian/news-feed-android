@@ -39,7 +39,8 @@ public class AuthService implements IAuthService {
 
     @Override
     public void create(User user, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfAuthService().create(user);
+
+	    Call<ResponseBody> call = getmRfAuthService().create(user);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

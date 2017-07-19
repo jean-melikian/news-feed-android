@@ -1,6 +1,5 @@
 package fr.esgi.newsfeed.services.user;
 
-import fr.esgi.newsfeed.models.Topic;
 import fr.esgi.newsfeed.models.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
