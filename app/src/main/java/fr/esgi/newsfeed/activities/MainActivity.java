@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         initBottomNavigation();
-        setBackBtnInvisible();
+        showBackButton(false);
     }
 
     @Override

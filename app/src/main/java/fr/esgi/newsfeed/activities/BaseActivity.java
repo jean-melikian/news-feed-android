@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import fr.esgi.newsfeed.R;
 
-import static android.view.View.GONE;
-
 
 /**
  * Created by Antoine Pelletier on 11/07/2017.
@@ -49,6 +47,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
     protected void onResume() {
         super.onResume();
         initActionBar(getTitleBarTitle());
+        // Hide if account activity
+        showAccountAction(!(this instanceof AccountActivity));
+        showBackButton(!(this instanceof MainActivity));
     }
 
     @Override
@@ -64,7 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         activityActionBar.setDisplayShowTitleEnabled(false);
         activityActionBar.setDisplayShowCustomEnabled(true);
 
-        actionBarView = (View) LayoutInflater.from(mContext).inflate(R.layout.custom_action_bar, null);
+        actionBarView = LayoutInflater.from(mContext).inflate(R.layout.custom_action_bar, null);
         activityActionBar.setCustomView(actionBarView);
 
         Toolbar parent = (Toolbar) actionBarView.getParent();
@@ -102,12 +103,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
 
     }
 
-    public void setBackBtnInvisible() {
-        mIco_back.setVisibility(GONE);
+    public void showBackButton(boolean show) {
+        mIco_back.setVisibility((show) ? View.VISIBLE : View.INVISIBLE);
     }
 
-    public void setBackBtnVisible() {
-        mIco_back.setVisibility(View.VISIBLE);
+    public void showAccountAction(boolean show) {
+        mIco_account.setVisibility((show) ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void setTitleBar(String title) {

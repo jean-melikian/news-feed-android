@@ -29,8 +29,13 @@ public class AccountActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public int getContentViewId() {
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	public int getContentViewId() {
         return R.layout.activity_account;
     }
 
