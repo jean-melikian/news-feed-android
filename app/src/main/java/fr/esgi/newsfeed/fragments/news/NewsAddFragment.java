@@ -14,6 +14,7 @@ import java.util.Date;
 
 import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.activities.MainActivity;
+import fr.esgi.newsfeed.helpers.activity.FloatingButtonType;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
@@ -28,7 +29,6 @@ public class NewsAddFragment extends Fragment {
 
     private EditText mTitle;
     private EditText mContent;
-    private Button mSubmit;
 
     private News mCurrentNews;
 
@@ -39,13 +39,29 @@ public class NewsAddFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).setTitleBar(getActivity().getResources().getString(R.string.add_news));
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MainActivity main = ((MainActivity) getActivity()) ;
+
+        if (main != null) {
+            main.setTitleBar(getActivity().getResources().getString(R.string.add_news));
+            main.setCountSubFragment(1);
+            main.setFloatingButton(FloatingButtonType.SAVE, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkFields(new EditText[]{mTitle, mContent})) {
+                        // Launch Service Subscription
+                        Date d = new Date();
+                        LaunchCreateNewsService(new News(mTitle.getText().toString(), mContent.getText().toString(), d.toString()));
+                    }
+                }
+            });
         }
+
     }
 
     @Override
@@ -55,18 +71,6 @@ public class NewsAddFragment extends Fragment {
 
         mTitle = (EditText) v.findViewById(R.id.editTexT_title_news);
         mContent = (EditText) v.findViewById(R.id.editTexT_content_news);
-        mSubmit = (Button) v.findViewById(R.id.submit_news);
-
-        mSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (checkFields(new EditText[]{mTitle, mContent})) {
-                    // Launch Service Subscription
-                    Date d = new Date();
-                    LaunchCreateNewsService(new News(mTitle.getText().toString(), mContent.getText().toString(), d.toString()));
-                }
-            }
-        });
 
         return v;
     }

@@ -16,12 +16,6 @@
             android:text="Last News"
             android:textSize="30sp" />
 
-        <Button
-            android:id="@+id/btn_add_news"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btnSize_regular"
-            android:text="@string/add_news" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_news"
             android:layout_width="match_parent"

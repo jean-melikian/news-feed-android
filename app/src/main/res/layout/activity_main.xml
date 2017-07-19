@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:design="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="fr.esgi.newsfeed.activities.MainActivity">
@@ -9,7 +10,7 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></FrameLayout>
+        android:layout_height="wrap_content"/>
 
 
     <android.support.design.widget.BottomNavigationView
@@ -20,5 +21,23 @@
         design:itemBackground="@color/darkGray"
         design:itemTextColor="@color/white"
         design:menu="@menu/bottom_nav_items" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="52dp"
+            android:visibility="gone"
+            design:backgroundTint="@color/yellow"
+            android:src="@drawable/ic_add_white_24dp"/>
+    </FrameLayout>
+
 
 </RelativeLayout>

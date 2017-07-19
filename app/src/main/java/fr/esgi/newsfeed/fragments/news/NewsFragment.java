@@ -20,6 +20,7 @@ import java.util.List;
 import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.activities.MainActivity;
 import fr.esgi.newsfeed.adapters.NewsAdapter;
+import fr.esgi.newsfeed.helpers.activity.FloatingButtonType;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
@@ -31,8 +32,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     private RecyclerView mRecyclerView;
     private NewsAdapter mNewsAdapter;
     private List<News> mLstNews;
-
-    private Button mBtn_add_news;
 
     private NewsService mNewsService;
 
@@ -102,11 +101,25 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).setTitleBar(getActivity().getResources().getString(R.string.news));
+        MainActivity main = ((MainActivity) getActivity()) ;
+        if (main != null) {
+            main.setTitleBar(getActivity().getResources().getString(R.string.news));
+            main.setFloatingButton(FloatingButtonType.ADD, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    NewsAddFragment newsAddFragment = new NewsAddFragment();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.container, newsAddFragment);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft.addToBackStack(null);
+                    ft.commit();
+
+                }
+            });
         }
     }
 
@@ -118,19 +131,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_news);
 
         mLstNews = getNews();
-
-        mBtn_add_news = (Button) v.findViewById(R.id.btn_add_news);
-        mBtn_add_news.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NewsAddFragment newsAddFragment = new NewsAddFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.container, newsAddFragment);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
 
         return v;
     }

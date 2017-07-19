@@ -5,8 +5,10 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.application.Session;
@@ -14,6 +16,7 @@ import fr.esgi.newsfeed.fragments.home.HomeFragment;
 import fr.esgi.newsfeed.fragments.news.NewsFragment;
 import fr.esgi.newsfeed.fragments.topics.TopicFragment;
 import fr.esgi.newsfeed.helpers.Constants;
+import fr.esgi.newsfeed.helpers.activity.FloatingButtonType;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
@@ -22,10 +25,9 @@ import fr.esgi.newsfeed.services.user.UserService;
 
 public class MainActivity extends BaseActivity {
 
+    private FloatingActionButton fab;
     private Session session;
-
     private Fragment currentFragment;
-
     private BottomNavigationView mBottomNavigationView;
 
 
@@ -60,6 +62,8 @@ public class MainActivity extends BaseActivity {
             getFragmentManager().beginTransaction().add(R.id.container, currentFragment).commit();
         }
 
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
     }
 
     @Override
@@ -88,6 +92,29 @@ public class MainActivity extends BaseActivity {
         return getResources().getColor(R.color.black);
     }
 
+
+    public void setFloatingButton(FloatingButtonType type, View.OnClickListener onClickListener) {
+
+        fab.setVisibility(View.VISIBLE);
+        switch (type) {
+            case NONE:
+                fab.setVisibility(View.GONE);
+                break;
+            case ADD:
+                fab.setImageResource(R.drawable.ic_add_white_24dp);
+                break;
+            case EDIT:
+                fab.setImageResource(R.drawable.ic_mode_edit_white_24dp);
+                break;
+            case SAVE:
+                fab.setImageResource(R.drawable.ic_save_white_24dp);
+                break;
+        }
+
+        fab.setOnClickListener(onClickListener);
+    }
+
+
     /**
      * Function which initialize the Bottom Navigation View
      */
@@ -97,6 +124,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+
+                fab.setVisibility(View.GONE);
+
                 switch (item.getItemId()) {
                     case R.id.menu_home:
                         //Launch Home Fragment

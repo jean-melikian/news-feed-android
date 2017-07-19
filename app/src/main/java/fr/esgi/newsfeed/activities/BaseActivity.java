@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
 
     private View actionBarView;
 
+    private int countSubFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
         mContext = this;
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         this.setContentView(getContentViewId());
+
+        this.countSubFragment = 0;
 
         initActionBar(getTitleBarTitle());
         initView();
@@ -56,7 +60,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
-        finish();
+
+        if (this.countSubFragment <= 0) {
+            finish();
+        }
     }
 
     private void initActionBar(String titleBarTitle) {
@@ -130,4 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Activity
     @Override
     public abstract int getTitleActionBarColor();
 
+    public void setCountSubFragment(int countSubFragment) {
+        this.countSubFragment = countSubFragment;
+    }
 }
