@@ -26,6 +26,10 @@ public class Topic {
         Log.d("Topic", toString());
     }
 
+    public String get_id() {
+        return "1";
+    }
+
     public String getTitle() {
         return title;
     }

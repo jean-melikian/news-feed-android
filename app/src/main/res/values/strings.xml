@@ -27,6 +27,7 @@
     <string name="topics">Topics</string>
     <string name="home">Home</string>
     <string name="add_news">Add a news</string>
+    <string name="add_topics">Add a Topics</string>
     <string name="submit">Submit</string>
     <string name="delete">Delete</string>
     <string name="update">Update</string>

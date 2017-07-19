@@ -1,12 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Last Topics"
+        android:textSize="30sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_topics"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/news_item_row" />
 
-    </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</LinearLayout>
+
+
+</ScrollView>
+

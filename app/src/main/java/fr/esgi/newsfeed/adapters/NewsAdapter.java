@@ -48,7 +48,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
         holder.holder_img.setImageDrawable(mContext.getResources().getDrawable(R.drawable.met_ic_clear));
         holder.holder_title.setText(mNews.get(position).getTitle());
         holder.holder_content.setText(mNews.get(position).getContent());
-
         holder.itemView.setOnClickListener(new NewsAdapter.OnClick(position));
     }
 

@@ -14,7 +14,7 @@ import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.application.Session;
 import fr.esgi.newsfeed.fragments.home.HomeFragment;
 import fr.esgi.newsfeed.fragments.news.NewsFragment;
-import fr.esgi.newsfeed.fragments.topics.TopicFragment;
+import fr.esgi.newsfeed.fragments.topics.TopicsFragment;
 import fr.esgi.newsfeed.helpers.Constants;
 import fr.esgi.newsfeed.helpers.activity.FloatingButtonType;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
 
                     case R.id.menu_topics:
                         //Launch Topic Fragment
-                        currentFragment = new TopicFragment();
+                        currentFragment = new TopicsFragment();
                         break;
                 }
                 ft.replace(R.id.container, currentFragment);

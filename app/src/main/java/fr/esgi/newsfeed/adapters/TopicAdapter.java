@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.esgi.newsfeed.R;
+import fr.esgi.newsfeed.models.News;
 import fr.esgi.newsfeed.models.Topic;
 import fr.esgi.newsfeed.models.User;
 import fr.esgi.newsfeed.viewHolder.TopicViewHolder;
@@ -20,11 +22,19 @@ import fr.esgi.newsfeed.viewHolder.TopicViewHolder;
 public class TopicAdapter extends RecyclerView.Adapter<TopicViewHolder> {
 
     private Context mContext;
-    private List<Topic> mListTopics;
+    private List<Topic> mListTopics = new ArrayList<>();
 
-    public TopicAdapter(Context mContext, List<Topic> mListTopics) {
-        this.mContext = mContext;
-        this.mListTopics = mListTopics;
+    private TopicAdapter.OnItemClickListener mOnItemClickListener;
+
+    public static interface OnItemClickListener {
+        public void onItemClicked(News news);
+    }
+
+    public TopicAdapter(List<Topic> listTopics, Context context) {
+        mListTopics.clear();
+        mListTopics.addAll(listTopics);
+        this.notifyDataSetChanged();
+        mContext = context;
     }
 
     @Override
@@ -33,6 +43,10 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicViewHolder> {
                 .inflate(R.layout.recycler_topics_item, parent, false);
 
         return new TopicViewHolder(inflatedView);
+    }
+
+    public void setOnItemClickListener(TopicAdapter.OnItemClickListener listener) {
+        mOnItemClickListener = listener;
     }
 
     @Override
@@ -47,6 +61,6 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return 0;
+        return mListTopics != null ? mListTopics.size() : 0;
     }
 }
