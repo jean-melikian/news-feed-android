@@ -10,9 +10,9 @@ import android.view.MenuItem;
 
 import fr.esgi.newsfeed.R;
 import fr.esgi.newsfeed.application.Session;
-import fr.esgi.newsfeed.fragments.HomeFragment;
-import fr.esgi.newsfeed.fragments.NewsFragment;
-import fr.esgi.newsfeed.fragments.TopicFragment;
+import fr.esgi.newsfeed.fragments.home.HomeFragment;
+import fr.esgi.newsfeed.fragments.news.NewsFragment;
+import fr.esgi.newsfeed.fragments.topics.TopicFragment;
 import fr.esgi.newsfeed.helpers.Constants;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;

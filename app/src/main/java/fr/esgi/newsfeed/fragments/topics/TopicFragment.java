@@ -1,4 +1,4 @@
-package fr.esgi.newsfeed.fragments;
+package fr.esgi.newsfeed.fragments.topics;
 
 import android.app.Fragment;
 import android.os.Bundle;

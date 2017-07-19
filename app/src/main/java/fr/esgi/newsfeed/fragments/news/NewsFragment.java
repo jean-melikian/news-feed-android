@@ -1,4 +1,4 @@
-package fr.esgi.newsfeed.fragments;
+package fr.esgi.newsfeed.fragments.news;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -71,7 +71,9 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                             Toast.makeText(getContext(), "Your news has been deleted.", Toast.LENGTH_LONG).show();
                                         } else {
-                                            Toast.makeText(getContext(), "A problem occured during the suppresion, please try again.", Toast.LENGTH_LONG).show();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                Toast.makeText(getContext(), "A problem occured during the suppresion, please try again.", Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                     }
                                 }
