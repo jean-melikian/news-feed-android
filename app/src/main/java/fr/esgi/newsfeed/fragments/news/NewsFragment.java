@@ -33,6 +33,8 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     private NewsAdapter mNewsAdapter;
     private List<News> mLstNews;
 
+    private NewsAdapter.OnItemClickListener onItemclick;
+
     private NewsService mNewsService;
 
     private static String CURRENT_NEWS = "CURRENT_NEWS";
@@ -104,7 +106,9 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
     public void onResume() {
         super.onResume();
 
-        MainActivity main = ((MainActivity) getActivity()) ;
+        onItemclick = this;
+
+        MainActivity main = ((MainActivity) getActivity());
         if (main != null) {
             main.setTitleBar(getActivity().getResources().getString(R.string.news));
             main.setFloatingButton(FloatingButtonType.ADD, new View.OnClickListener() {
@@ -142,6 +146,12 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
         Bundle bundle = new Bundle();
         bundle.putSerializable(CURRENT_NEWS, news);
         fragment.setArguments(bundle);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.container, fragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     /**
@@ -159,6 +169,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnItemClickLis
                     mLstNews = result.getData();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         mNewsAdapter = new NewsAdapter(mLstNews, getContext());
+                        mNewsAdapter.setOnItemClickListener(onItemclick);
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

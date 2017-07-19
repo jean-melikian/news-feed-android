@@ -134,8 +134,9 @@ public class NewsService implements INewsService {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 ServiceResult<String> result = new ServiceResult<>();
-                if (response.code() == 200) {
-                    result.setData(response.body().toString());
+                if (response.code() == 204) {
+
+                    result.setData(String.valueOf(response.code()));
 
                     if (resultListener != null)
                         resultListener.onResult(result);
