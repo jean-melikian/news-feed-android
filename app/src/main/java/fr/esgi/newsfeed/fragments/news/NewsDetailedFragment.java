@@ -18,7 +18,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import fr.esgi.newsfeed.R;
+import fr.esgi.newsfeed.activities.MainActivity;
 import fr.esgi.newsfeed.adapters.CommentsAdapter;
+import fr.esgi.newsfeed.helpers.activity.FloatingButtonType;
 import fr.esgi.newsfeed.helpers.retrofit.IServiceResultListener;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceException;
 import fr.esgi.newsfeed.helpers.retrofit.ServiceResult;
@@ -116,6 +118,12 @@ public class NewsDetailedFragment extends Fragment implements CommentsAdapter.On
             }
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setFloatingButton(FloatingButtonType.NONE, null);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
