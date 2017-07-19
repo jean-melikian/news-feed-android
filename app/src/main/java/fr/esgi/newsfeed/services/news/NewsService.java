@@ -81,6 +81,9 @@ public class NewsService implements INewsService {
                 } else {
                     result.setError(new ServiceException(response.code()));
                 }
+
+                if (resultListener != null)
+                    resultListener.onResult(result);
             }
 
             @Override

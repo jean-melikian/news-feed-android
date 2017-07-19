@@ -35,6 +35,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
             mNews.addAll(mDataList);
             this.notifyDataSetChanged();
             mContext = context;
+        } else {
+            mNews = mDataList;
+            mContext = context;
         }
     }
 
