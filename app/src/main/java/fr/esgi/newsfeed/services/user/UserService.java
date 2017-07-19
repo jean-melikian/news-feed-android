@@ -56,7 +56,7 @@ public class UserService implements IUserService {
                 if (response.code() == 200) {
 
                     if (response.body() != null)
-                        Log.e("UserService", response.body().toString());
+                        Log.d("UserService", response.body().toString());
                     result.setData(response.body());
 
                     if (resultListener != null)

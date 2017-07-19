@@ -1,5 +1,7 @@
 package fr.esgi.newsfeed.services.topic;
 
+import android.util.Log;
+
 import java.util.List;
 
 import fr.esgi.newsfeed.application.Session;
@@ -74,16 +76,21 @@ public class TopicService implements ITopicService {
         call.enqueue(new Callback<List<Topic>>() {
             @Override
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
+                Log.d("TopicService", "Code: " + String.valueOf(response.code()) + "\n Body:" + response.body().toString());
                 ServiceResult<List<Topic>> result = new ServiceResult<>();
                 if (response.code() == 200) {
                     result.setData(response.body());
                 } else {
                     result.setError(new ServiceException(response.code()));
                 }
+
+                if (resultListener != null)
+                    resultListener.onResult(result);
             }
 
             @Override
             public void onFailure(Call<List<Topic>> call, Throwable t) {
+                t.printStackTrace();
                 ServiceResult<List<Topic>> result = new ServiceResult<>();
                 result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
                 if (resultListener != null)

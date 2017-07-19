@@ -101,30 +101,21 @@ public class MainActivity extends BaseActivity {
                     case R.id.menu_home:
                         //Launch Home Fragment
                         currentFragment = new HomeFragment();
-                        ft.replace(R.id.container, currentFragment);
-                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.addToBackStack(null);
-                        ft.commit();
-
                         break;
                     case R.id.menu_news:
                         // Launch News Fragment
                         currentFragment = new NewsFragment();
-                        ft.replace(R.id.container, currentFragment);
-                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.addToBackStack(null);
-                        ft.commit();
                         break;
 
                     case R.id.menu_topics:
                         //Launch Topic Fragment
                         currentFragment = new TopicFragment();
-                        ft.replace(R.id.container, currentFragment);
-                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.addToBackStack(null);
-                        ft.commit();
                         break;
                 }
+                ft.replace(R.id.container, currentFragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.addToBackStack(null);
+                ft.commit();
                 return true;
             }
         });
